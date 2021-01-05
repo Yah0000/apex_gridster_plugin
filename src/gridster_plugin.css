@@ -1,0 +1,24 @@
+.gridster {
+	height: 100%;
+  }
+
+  .gridster .buttons {
+	float: right;
+  }
+
+  .gridster .buttons button {
+	z-index: 999;
+  }
+
+.gridster ul {
+
+	margin-left: 0px;
+	margin-right: 0px
+  }
+
+  .gridster .gs-w {
+	list-style: none;
+  }
+
+
+ 

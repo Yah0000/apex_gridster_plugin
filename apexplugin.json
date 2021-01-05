@@ -1,0 +1,53 @@
+{
+  "name" : "Gridster plugin",
+  "version" : "1.0",
+  "description" : "The plug-in enables dynamic drawing of regions based on a SQL query. Users can create their own dashboards adapting regions positions and sizes to their needs and save them in various ways.<br>
+  <p><strong>All features:</strong></p>
+<ul>
+<li>Possibility to lock editing positions and sizes by the user</li>
+<li>Default element position and location can be given in:
+<ul>
+<li>SQL query</li>
+<li>JSON</li>
+</ul>
+</li>
+<li>Saved regions positions and sizes by end-user can be stored in
+<ul>
+<li>APEX ITEM</li>
+<li>Browser Local storage (it also support for public users without an application user)</li>
+<li>Not stored (always get from defaults positions)</li>
+</ul>
+</li>
+<li>APEX dynamic action refresh support</li>
+<li>Region colors adjustment</li>
+<li>APEX-like layout</li>
+</ul>",
+  "keywords" : ["Dynamic Region", "Gridster", "Dashboard", "dynamic layout"],
+  "homepage" : "https://github.com/CanbiPl/canbi-google-maps-route-plugin",
+  "bugs" : {
+    "url" : "https://github.com/Yah0000/apex_gridster_plugin/issues",
+    "email" : ""
+  },
+  "license" : "MIT",
+  "commercial" : "No",
+  "author" : {
+    "name" : "Jan Sobczak",
+    "url" : "https://github.com/Yah0000"
+  },
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/CanbiPl/canbi-google-maps-route-plugin.git"
+  },
+  "oracle" : {
+    "versions" : ["11.2.0.1", "12.1.0.1", "18.0.0.0"],
+    "apex" : {
+      "versions" : ["18.1.0","18.2.0","19.1.0","19.2.0","20.1.0","20.2.0"],
+      "plugin" : {
+        "internalName" : "PL.YAH0000.GRIDSTER_PLUGIN",
+        "type" : "region",
+        "demo" : "https://github.com/Yah0000/apex_gridster_plugin/apex_sample_application",
+        "previewImage" : "https://raw.githubusercontent.com/Yah0000/apex_gridster_plugin/master/preview.gif"
+      }
+    }
+  }
+}
