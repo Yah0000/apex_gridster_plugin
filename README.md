@@ -2,7 +2,7 @@
 
 ![](https://img.shields.io/badge/Plug--in_Type-Region-orange.svg)
 ![](https://img.shields.io/badge/APEX-18.2-success.svg) ![](https://img.shields.io/badge/APEX-19.1-success.svg) ![](https://img.shields.io/badge/APEX-19.2-success.svg) ![](https://img.shields.io/badge/APEX-20.1-success.svg) ![](https://img.shields.io/badge/APEX-20.2-success.svg)
-![](https://img.shields.io/badge/Oracle-11g-success.svg) ![](https://img.shields.io/badge/Oracle-12c-success.svg)  ![](https://img.shields.io/badge/Oracle-18c-success.svg) ![](https://img.shields.io/badge/Oracle Cloud-ATP-success.svg)
+![](https://img.shields.io/badge/Oracle-11g-success.svg) ![](https://img.shields.io/badge/Oracle-12c-success.svg)  ![](https://img.shields.io/badge/Oracle-18c-success.svg)
 
 ## Overview
 
