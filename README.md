@@ -24,6 +24,12 @@ The plug-in enables dynamic drawing of regions based on a SQL query. Users can c
 
 
 
+#### Preview: 
+
+![](https://raw.githubusercontent.com/Yah0000/apex_gridster_plugin/master/preview.gif)
+
+
+
 ## Reference
 
 1. This plugin based on gridster.js jQuery Plugin https://dsmorse.github.io/gridster.js/ 
