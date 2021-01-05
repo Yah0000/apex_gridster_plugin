@@ -181,7 +181,7 @@ Demo Application installation:
 
 1. Plugin is publish in MIT license. 
 
-2. If you find any bugs or you have idea to extend functionality of plugin feel free to use [issues](apex_gridster_plugin/issues) section or send private message.
+2. If you find any bugs or you have idea to extend functionality of plugin feel free to use [issues](https://github.com/Yah0000/apex_gridster_plugin/issues) section or send private message.
 
 3. I will be glad to hear about your feedback
 
