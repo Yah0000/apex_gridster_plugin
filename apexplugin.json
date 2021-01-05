@@ -23,7 +23,7 @@
 <li>APEX-like layout</li>
 </ul>",
   "keywords" : ["Dynamic Region", "Gridster", "Dashboard", "dynamic layout"],
-  "homepage" : "https://github.com/CanbiPl/canbi-google-maps-route-plugin",
+  "homepage" : "https://github.com/Yah0000/apex_gridster_plugin",
   "bugs" : {
     "url" : "https://github.com/Yah0000/apex_gridster_plugin/issues",
     "email" : "jansobczak1@gmail.com"
@@ -37,7 +37,7 @@
   },
   "repository" : {
     "type" : "git",
-    "url" : "https://github.com/CanbiPl/canbi-google-maps-route-plugin.git"
+    "url" : "https://github.com/Yah0000/apex_gridster_plugin.git"
   },
   "oracle" : {
     "versions" : ["11.2.0.1", "12.1.0.1", "18.0.0.0"],
