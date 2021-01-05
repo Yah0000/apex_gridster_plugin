@@ -46,7 +46,7 @@
       "plugin" : {
         "internalName" : "PL.YAH0000.GRIDSTER_PLUGIN",
         "type" : "region",
-        "demo" : "https://github.com/Yah0000/apex_gridster_plugin/apex_sample_application",
+        "demo" : "https://github.com/Yah0000/apex_gridster_plugin/tree/main/apex_sample_application",
         "previewImage" : "https://raw.githubusercontent.com/Yah0000/apex_gridster_plugin/master/preview.gif"
       }
     }
