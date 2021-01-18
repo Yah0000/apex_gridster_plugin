@@ -1,4 +1,4 @@
-FUNCTION render_plugin (
+ FUNCTION render_plugin (
         p_region               IN  apex_plugin.t_region,
         p_plugin               IN  apex_plugin.t_plugin,
         p_is_printer_friendly  IN  BOOLEAN
@@ -59,7 +59,7 @@ FUNCTION render_plugin (
         RETURN vr_result;
     END;
 
-    FUNCTION ajax_plugin (
+    FUNCTION load_plugin (
         p_region  IN  apex_plugin.t_region,
         p_plugin  IN  apex_plugin.t_plugin
     ) RETURN apex_plugin.t_region_ajax_result IS
@@ -85,6 +85,7 @@ FUNCTION render_plugin (
         l_values               apex_json.t_values;
         l_row_found            BOOLEAN;
     BEGIN
+    
         l_context := apex_exec.open_query_context(p_columns => l_columns);
         l_id_col_idx := apex_exec.get_column_position(p_context => l_context, p_column_name => p_region.attribute_01);
 
@@ -97,23 +98,23 @@ FUNCTION render_plugin (
         CASE c_default_pos_src
             WHEN 'COLUMNS' THEN
                 IF p_region.attribute_06 IS NOT NULL THEN
-                    l_image_col_idx := apex_exec.get_column_position(p_context => l_context,
+                    l_region_column_idx := apex_exec.get_column_position(p_context => l_context,
                                                                     p_column_name => p_region.attribute_06);
                 END IF;
 
                 IF p_region.attribute_07 IS NOT NULL THEN
-                    l_image_col_idx := apex_exec.get_column_position(p_context => l_context,
+                    l_region_row_idx := apex_exec.get_column_position(p_context => l_context,
                                                                     p_column_name => p_region.attribute_07);
 
                 END IF;
 
                 IF p_region.attribute_08 IS NOT NULL THEN
-                    l_image_col_idx := apex_exec.get_column_position(p_context => l_context,
+                    l_region_xsize_idx := apex_exec.get_column_position(p_context => l_context,
                                                                     p_column_name => p_region.attribute_08);
                 END IF;
 
                 IF p_region.attribute_09 IS NOT NULL THEN
-                    l_image_col_idx := apex_exec.get_column_position(p_context => l_context,
+                    l_region_ysize_idx := apex_exec.get_column_position(p_context => l_context,
                                                                     p_column_name => p_region.attribute_09);
                 END IF;
 
@@ -149,23 +150,20 @@ FUNCTION render_plugin (
                 END IF;
 
                 IF l_region_row_idx IS NOT NULL THEN
-                    apex_json.write(p_name => 'row', p_value => nvl(apex_exec.get_number(p_context => l_context, p_column_idx => l_region_row_idx),
-                    1));
+                    apex_json.write(p_name => 'row', p_value => nvl(apex_exec.get_number(p_context => l_context, p_column_idx => l_region_row_idx), 1));
 
                 ELSE
                     apex_json.write(p_name => 'row', p_value => 1);
                 END IF;
 
                 IF l_region_xsize_idx IS NOT NULL THEN
-                    apex_json.write(p_name => 'size_x', p_value => nvl(apex_exec.get_number(p_context => l_context, p_column_idx =>
-                    l_region_xsize_idx), 1));
+                    apex_json.write(p_name => 'size_x', p_value => nvl(apex_exec.get_number(p_context => l_context, p_column_idx => l_region_xsize_idx), 1));
                 ELSE
                     apex_json.write(p_name => 'size_x', p_value => 1);
                 END IF;
 
                 IF l_region_ysize_idx IS NOT NULL THEN
-                    apex_json.write(p_name => 'size_y', p_value => nvl(apex_exec.get_number(p_context => l_context, p_column_idx =>
-                    l_region_ysize_idx), 1));
+                    apex_json.write(p_name => 'size_y', p_value => nvl(apex_exec.get_number(p_context => l_context, p_column_idx =>  l_region_ysize_idx), 1));
                 ELSE
                     apex_json.write(p_name => 'size_y', p_value => 1);
                 END IF;
@@ -178,4 +176,72 @@ FUNCTION render_plugin (
         apex_exec.close(l_context);
         apex_json.close_all;
         RETURN l_return;
-    END ajax_plugin;
+    END load_plugin;
+
+FUNCTION save_colection (
+        p_region  IN  apex_plugin.t_region,
+        p_plugin  IN  apex_plugin.t_plugin
+    ) 
+  return apex_plugin.t_region_ajax_result
+    as
+      l_return apex_plugin.t_region_ajax_result;
+      json_clob clob;
+      l_token varchar2(32000);
+      
+      l_values APEX_JSON.t_values; 
+      l_count number;
+      l_apex_collection_name varchar2(255) := p_region.attribute_18;
+    begin
+    
+	 dbms_lob.createtemporary(json_clob, false, dbms_lob.session);
+	 for i in 1 .. apex_application.g_f01.count loop
+          l_token := wwv_flow.g_f01(i);
+          if length(l_token) > 0 then
+               dbms_lob.append(
+                    dest_lob => json_clob,
+                    src_lob => l_token
+               );
+          end if;
+	 end loop;
+     
+    APEX_COLLECTION.CREATE_OR_TRUNCATE_COLLECTION(
+        p_collection_name => l_apex_collection_name);
+        
+     apex_json.parse(p_values=>l_values, p_source=>json_clob);
+     l_count:=apex_json.get_count(p_path=>'.',p_values => l_values);
+        FOR i in 1 .. l_count LOOP
+        
+        APEX_COLLECTION.ADD_MEMBER(
+            p_collection_name => l_apex_collection_name,
+            p_n001            => apex_json.get_number ( p_path=> '[%d].id', p0 => i , p_values => l_values ),     --"id"
+            p_n002            => apex_json.get_number ( p_path=> '[%d].row', p0 => i , p_values => l_values ),     --"row"
+            p_n003            => apex_json.get_number ( p_path=> '[%d].col', p0 => i , p_values => l_values ),     --"col"
+            p_n004            => apex_json.get_number ( p_path=> '[%d].size_x', p0 => i , p_values => l_values ),     -- "size_x":
+            p_n005            => apex_json.get_number ( p_path=> '[%d].size_y', p0 => i , p_values => l_values )      --"size_y"
+        );
+          
+        END LOOP;
+        
+      return l_return;
+      
+ END save_colection;
+ 
+FUNCTION ajax_plugin (
+        p_region  IN  apex_plugin.t_region,
+        p_plugin  IN  apex_plugin.t_plugin
+    ) 
+  return apex_plugin.t_region_ajax_result
+    as
+      l_return apex_plugin.t_region_ajax_result;
+    begin
+    
+      case upper(apex_application.g_x01)
+        when 'LOAD' then 
+            l_return := load_plugin( p_region => p_region, p_plugin => p_plugin );
+        when 'SAVE' then
+            l_return := save_colection( p_region => p_region, p_plugin => p_plugin );
+        else null;
+      end case;
+    
+      return l_return;
+ END ajax_plugin;

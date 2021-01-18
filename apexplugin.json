@@ -1,6 +1,6 @@
 {
   "name" : "Gridster plugin",
-  "version" : "1.0",
+  "version" : "1.1",
   "description" : "The plug-in enables dynamic drawing of regions based on a SQL query. Users can create their own dashboards adapting regions positions and sizes to their needs and save them in various ways.<br>
   <p><strong>All features:</strong></p>
 <ul>
@@ -13,6 +13,7 @@
 </li>
 <li>Saved regions positions and sizes by end-user can be stored in
 <ul>
+<li>APEX Collection</li>
 <li>APEX ITEM</li>
 <li>Browser Local storage (it also support for public users without an application user)</li>
 <li>Not stored (always get from defaults positions)</li>

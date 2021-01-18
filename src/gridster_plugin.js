@@ -56,7 +56,7 @@ var saveButton = document.querySelector(".gridster > .buttons > button");
 
 
 function onLoadFn(l_ajax_identifier, region_static_id, l_allow_to_relocate, l_position_store_mode, l_item_pos_src, l_default_pos_src) {
-	
+
 	ajax_identifier = l_ajax_identifier;
 	gridster = $("#" + region_static_id + " .gridster ul").gridster({
 		widget_base_dimensions: [125, 125],
@@ -89,12 +89,12 @@ function onLoadFn(l_ajax_identifier, region_static_id, l_allow_to_relocate, l_po
 		gridster.disable();
 	}
 
-	ReloadGridster(gridster, l_ajax_identifier);
+	ReloadGridster(gridster, l_ajax_identifier, 'INIT');
 
 	apex.region.create(region_static_id, {
 		type: "region",
 		refresh: function () {
-			ReloadGridster(gridster, l_ajax_identifier);
+			ReloadGridster(gridster, l_ajax_identifier, 'REFRESH');
 		}
 	});
 
@@ -109,9 +109,12 @@ function onLoadFn(l_ajax_identifier, region_static_id, l_allow_to_relocate, l_po
 	}
 }
 
-function ReloadGridster(gridsterIn, l_ajax_identifier) {
+function ReloadGridster(gridsterIn, l_ajax_identifier, mode) {
+	var location_before_refersh = GetPositions();
 
-	apex.server.plugin(l_ajax_identifier, {}, {
+	apex.server.plugin(l_ajax_identifier, {
+		x01: "LOAD"
+	}, {
 		dataType: "text",
 		success: function (data) {
 			var gridster_data = JSON.parse(data);
@@ -137,23 +140,28 @@ function ReloadGridster(gridsterIn, l_ajax_identifier) {
 				})
 			}
 
-			switch (gridsterIn.position_store_mode) {
-				case 'LOCAL_STORAGE':
-					layout_data_JSON = readLocalStorage();
-					break;
-				case 'APEX_ITEM':
-					layout_data_JSON = apex.item(gridster.item_pos_src).getValue();
-					break;
-				case 'APEX_COLLECTION':
-					break;
+			if (mode === 'REFRESH') {
+				layout_data = location_before_refersh;
 			}
 
-			try {
-				layout_data = JSON.parse(layout_data_JSON);
-			} catch (e) {
-				layout_data = null;
-			}
+			if (mode === 'INIT') {
+				switch (gridsterIn.position_store_mode) {
+					case 'LOCAL_STORAGE':
+						layout_data_JSON = readLocalStorage();
+						break;
+					case 'APEX_ITEM':
+						layout_data_JSON = apex.item(gridster.item_pos_src).getValue();
+						break;
+					case 'APEX_COLLECTION':
+						break;
+				}
 
+				try {
+					layout_data = JSON.parse(layout_data_JSON);
+				} catch (e) {
+					layout_data = null;
+				}
+			}
 			if (layout_data && layout_data !== undefined) {
 
 				let op = grid_data.map((e, i) => {
@@ -174,7 +182,20 @@ function ReloadGridster(gridsterIn, l_ajax_identifier) {
 
 }
 
-function SavePositions() {
+function SaveLocationToCollection(JSONin) {
+
+	var l_ajax_identifier = ajax_identifier;
+
+	apex.server.plugin(l_ajax_identifier,
+		{ x01: "SAVE", f01: apex.server.chunk(JSONin) }, {
+		dataType: "text",
+		success: function (data) {
+		}
+	});
+
+}
+
+function GetPositions() {
 
 	var serializeJsonArr = new Array();
 
@@ -195,6 +216,14 @@ function SavePositions() {
 		serializeJsonArr.push(serializeJson);
 	});
 
+	return serializeJsonArr;
+
+}
+
+function SavePositions() {
+
+	var serializeJsonArr = GetPositions();
+
 	switch (gridster.position_store_mode) {
 		case 'LOCAL_STORAGE':
 			saveLocalStorage(JSON.stringify(serializeJsonArr));
@@ -203,6 +232,7 @@ function SavePositions() {
 			apex.item(gridster.item_pos_src).setValue(JSON.stringify(serializeJsonArr));
 			break;
 		case 'APEX_COLLECTION':
+			SaveLocationToCollection(JSON.stringify(serializeJsonArr));
 			break;
 	}
 

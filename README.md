@@ -15,6 +15,7 @@ The plug-in enables dynamic drawing of regions based on a SQL query. Users can c
   - SQL query
   -  JSON
 - Saved regions positions and sizes by end-user can be stored in
+  - APEX Collection
   - APEX ITEM
   - Browser Local storage (it also support for public users without an application user)
   - Not stored (always get from defaults positions)
@@ -154,6 +155,14 @@ Demo Application installation:
              - *Local storage* - Saves positions in the end user browser (it also support for public users without an application user).
              - *APEX Item* - JSON with items will be stored in APEX item:
                   - **Item to store positions**	(Region attribute)
+             - *APEX Collection* - JSON with items will be stored in APEX Collection:
+                  - **Collection name**	(Region attribute) - The name of the APEX collection in which the items will be saved.
+                    The columns assigned:
+                    - n001 => "id" 
+                    - n002 => "row" 
+                    - n003 => "col" 
+                    - n004 => "size_x"
+                    - n005 => "size_y"
 
 2. Plugin support refreshing source by dynamic dynamic action
 
@@ -163,15 +172,14 @@ Demo Application installation:
 
 ## Releases
 
-| Release number | Release date | New features    |
-| -------------- | ------------ | --------------- |
-| 1.0            | 2020-01-05   | Initial release |
+| Release number | Release date | New features                                                 |
+| -------------- | ------------ | ------------------------------------------------------------ |
+| 1.0            | 2020-01-05   | Initial release                                              |
+| 1.1            | 2020-01-19   | +Store position in APEX collection<br />+Fix relocation after refresh |
 
 
 
 ## Planned features in next releases
-
-1. Store position in APEX COLLECTIONS
 
 *If you have idea to new functionality see Support section.*
 
