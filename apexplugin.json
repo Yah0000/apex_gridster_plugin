@@ -22,7 +22,8 @@
 <li>APEX dynamic action refresh support</li>
 <li>Region colors adjustment</li>
 <li>APEX-like layout</li>
-</ul>",
+</ul><br><br>
+<b>Online demo now available. Use link below</b><br>",
   "keywords" : ["Dynamic Region", "Gridster", "Dashboard", "dynamic layout"],
   "homepage" : "https://github.com/Yah0000/apex_gridster_plugin",
   "bugs" : {
@@ -47,7 +48,7 @@
       "plugin" : {
         "internalName" : "PL.YAH0000.GRIDSTER_PLUGIN",
         "type" : "region",
-        "demo" : "https://github.com/Yah0000/apex_gridster_plugin/apex_sample_application",
+        "demo" : "https://apex.oracle.com/pls/apex/f?p=32149",
         "previewImage" : "https://raw.githubusercontent.com/Yah0000/apex_gridster_plugin/master/preview.gif"
       }
     }

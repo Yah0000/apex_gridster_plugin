@@ -46,8 +46,9 @@ Demo Application installation:
 
    
 
+**Online demo now available. Use link below:**
 
-*Online demo soon available*
+[APEX_GRIDSTER_PLUGIN (oracle.com)](https://apex.oracle.com/pls/apex/f?p=32149)
 
 
 
@@ -175,7 +176,7 @@ Demo Application installation:
 | Release number | Release date | New features                                                 |
 | -------------- | ------------ | ------------------------------------------------------------ |
 | 1.0            | 2020-01-05   | Initial release                                              |
-| 1.1            | 2020-01-19   | +Store position in APEX collection<br />+Fix relocation after refresh |
+| 1.1            | 2020-01-19   | +Store position in APEX collection<br />+Fix relocation after refresh<br />+Online demo |
 
 
 
